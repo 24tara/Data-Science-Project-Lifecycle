@@ -1,7 +1,7 @@
 TK 1949250 data analysis codes to create graph 
-
 Tool Used: google colab (scatter bubble plot)
 
+#importing relevant libraires
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -10,7 +10,8 @@ import seaborn as sns
 #upload file to database
 df = pd.read_excel('/content/Homeless 2024.xlsx')
 
-df.head()
+#checking correct dataset is uploaded 
+df.head() 
 
 #Top 50 locations with the highest homeless population
 top_50_df = df.nlargest(50, "Homeless Population")
