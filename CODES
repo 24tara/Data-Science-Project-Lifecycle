@@ -1,1 +1,37 @@
+TK 1949250 data analysis codes to create graph 
 
+Tool Used: google colab (scatter bubble plot)
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+#upload file to database
+df = pd.read_excel('/content/Homeless 2024.xlsx')
+
+df.head()
+
+#Top 50 locations with the highest homeless population
+top_50_df = df.nlargest(50, "Homeless Population")
+
+# numeric index for plotting
+top_50_df["Location_Index"] = range(len(top_50_df))
+
+# Create the graph
+plt.figure(figsize=(18, 10))
+scatter = plt.scatter(top_50_df["Location_Index"], top_50_df["Homeless Population"],
+                      s=top_50_df["BubbleSize"], alpha=0.5, c=top_50_df["Homeless Population"],
+                      cmap="coolwarm", edgecolors="black")
+
+# Set x-ticks for only the top 50 locations
+plt.xticks(top_50_df["Location_Index"], top_50_df["Location"], rotation=65, fontsize=7) #angle of location names and size
+
+# Add labels and title to the graph
+plt.title("Top 50 UK Local Authorities by Homeless Population (2024)")
+plt.xlabel("Location")
+plt.ylabel("Homeless Population")
+plt.colorbar(label="Homeless Population")  #adds colour bar on side
+
+# Show the plot and display
+plt.show()
