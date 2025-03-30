@@ -177,3 +177,70 @@ ggplot(merged_data, aes(x = Population, y = GDHI)) +
   ggtitle("Two-Dimensional KDE Plot: Population vs GDHI") +
   xlab("Population") +
   ylab("GDHI")
+
+
+
+
+OMAR:
+Data cleaning and preparation of the 'Household Deprivation' dataset
+Tool used: Google Colab
+
+# importing necessary libraries
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# loading the dataset and printing each sheet name
+df = pd.read_excel('/content/Household Deprivation.xlsx')
+xls = pd.ExcelFile('/content/Household Deprivation.xlsx')
+print(xls.sheet_names)
+
+# Preview the data for only the first sheet
+Sheet1 = pd.read_excel('/content/Household Deprivation.xlsx', sheet_name='Dataset')
+Sheet1.head()
+
+# Preview the data for only the second sheet
+Sheet2 = pd.read_excel('/content/Household Deprivation.xlsx', sheet_name='Metadata')
+Sheet2.head()
+
+# Checking the data types
+Sheet1.info()
+
+# Checking for missing values
+Sheet1.isnull()
+
+# Plotting a heatmap of missing values
+cols = Sheet1.columns
+plt.figure(figsize = (10,5))
+sns.heatmap(Sheet1[cols].isnull())
+
+# Checking percentage of missing values for each column
+missing_pct = round(Sheet1.isnull().sum()/len(df)*100,1)
+print(missing_pct)
+
+# Dropping a specific column
+for sheet in xls.sheet_names:
+    df = pd.read_excel(xls, sheet_name=sheet)
+    columns_to_drop = ['Household deprivation (6 categories) Code']
+    columns_to_drop = [col for col in columns_to_drop if col in df.columns]
+
+    if columns_to_drop:
+            df = df.drop(columns=columns_to_drop)
+            print(f"Dropped columns: {columns_to_drop}")
+
+    df.fillna(df.mode().iloc[0], inplace=True)
+    print(f'Updated data for sheet {sheet}:')
+    print(df)
+    print()
+    df.head()
+
+# Dropping the second sheet and saving the new cleaned file only containing the first sheet
+file_path = "/content/Household Deprivation.xlsx"
+xls = pd.ExcelFile(file_path)
+sheet_to_drop = "Metadata"
+all_sheets = xls.sheet_names
+sheets_dict = {sheet: xls.parse(sheet) for sheet in all_sheets if sheet != sheet_to_drop}
+output_path = "cleaned_Household_Deprivation.xlsx"
+with pd.ExcelWriter(output_path) as writer:
+    for sheet, df in sheets_dict.items():
+        df.to_excel(writer, sheet_name=sheet, index=False)
