@@ -123,24 +123,16 @@ ggplot(merged_data, aes(x = Population, y = GDHI)) +
   xlab("Population") + #x-axis
   ylab("GDHI") #y-axis
 
-#create a scatter plot of GDHI vs Population with a polynomial regression line 
-ggplot(merged_data, aes(x = Population, y = GDHI)) +
-  geom_point(color = "blue", alpha = 0.5) + #scatter points
-  geom_smooth(method = "lm", formula = y ~ poly(x, 2), color = "red") + #polynomial regression line
-  ggtitle("Polynomial Regression: GDHI vs Population") + #title
-  xlab("Population") + #x-axis
-  ylab("GDHI") #y-axis
-
 #apply a log transformation to both GDHI and Population to reduce skewness
 merged_data <- merged_data %>%
   mutate(log_GDHI = log(GDHI),
          log_Population = log(Population))
 
 #fit a log-log regression model
-model3 <- lm(log_GDHI ~ log_Population, data = merged_data)
+model2 <- lm(log_GDHI ~ log_Population, data = merged_data)
 
 #display the summary of the model
-summary(model3)
+summary(model2)
 
 #violin plot - age distribution in 2021
 ggplot(young_children_2021, aes(x = `local authority name`, y = `All usual residents`)) + 
