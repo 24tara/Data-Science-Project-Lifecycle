@@ -123,16 +123,6 @@ ggplot(merged_data, aes(x = Population, y = GDHI)) +
   xlab("Population") + #x-axis
   ylab("GDHI") #y-axis
 
-#create a new column with the square of the Population variable for polynomial regression
-merged_data <- merged_data %>%
-  mutate(Population_sq = Population^2)
-
-#fit a polynomial regression model
-model2 <- lm(GDHI ~ Population + Population_sq, data = merged_data)
-
-#display the summary of the model
-summary(model2)
-
 #create a scatter plot of GDHI vs Population with a polynomial regression line 
 ggplot(merged_data, aes(x = Population, y = GDHI)) +
   geom_point(color = "blue", alpha = 0.5) + #scatter points
