@@ -1,0 +1,49 @@
+COREY: 
+
+import pandas as pd
+
+data1 = pd.read_excel('/content/Five year age bands.xlsx', sheet_name='2021')
+data2 = pd.read_excel('/content/Five year age bands.xlsx', sheet_name='change 2011-2021')
+data1 = data1.drop(columns=(['ward code', 'local authority code']))
+data1.head(10)
+
+data2 = data2.drop(columns=(['ward code', 'local authority code']))
+data2.head(10)
+
+with pd.ExcelWriter('/content/Age 2011-2021.xlsx', engine='openpyxl') as writer:
+    data1.to_excel(writer, sheet_name='2021', index=False)
+    data2.to_excel(writer, sheet_name='change 2011-2021', index=False)
+
+data1 = pd.read_excel('/content/localincomedeprivationdata.xlsx', sheet_name='Rankings for all indicators', header = 1)
+data1 = data1[['Local Authority District name (2019)', 'Income deprivation rate']]
+data1['Income deprivation rate'] = data1['Income deprivation rate'] * 100
+data1.head(10)
+
+data1.to_excel('/content/Deprivation 2019.xlsx', index=False)
+
+data1 = pd.read_excel('/content/young children and familiesZZ.xlsx', sheet_name='A5R', header = 0)
+data1 = data1.drop('Code', axis=1)
+data1.head(10)
+
+data1.to_excel('/content/Homeless 2024.xlsx', index=False)
+
+data1 = pd.read_excel('/content/asylum applications datasetZZ.xlsx', sheet_name='Sheet1', header = 0)
+data1.head(10)
+
+data1.to_excel('/content/Asylum applications 2020-2022.xlsx', index=False)
+
+data1 = pd.read_excel('/content/gross disposable household income.xlsx', sheet_name='Table 3', header = 1)
+data2 = pd.read_excel('/content/gross disposable household income.xlsx', sheet_name='Table 2', header = 1)
+data1.head(10)
+
+data1 = data1.dropna(axis = 1)
+data1 = data1.drop(columns=(['ITL', 'ITL code']))
+data1.head(10)
+
+data2 = data2.dropna(axis = 1)
+data2 = data2.drop(columns=(['ITL', 'ITL code']))
+data2.head(10)
+
+with pd.ExcelWriter('/content/GDHI and Population 1997-2022.xlsx', engine='openpyxl') as writer:
+    data1.to_excel(writer, sheet_name='GDHI', index=False)
+    data2.to_excel(writer, sheet_name='Population', index=False)
