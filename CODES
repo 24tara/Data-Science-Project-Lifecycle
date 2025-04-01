@@ -39,6 +39,7 @@ plt.colorbar(label="Homeless Population")  #adds colour bar on side
 plt.show()
 
 
+
 Elisa:
 #load necessary libraries
 library(ggplot2)
